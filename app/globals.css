@@ -1,0 +1,510 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Default: Clean Google-like Light Theme */
+  --theme-bg: #f8f9fa;
+  --theme-text: #202124;
+  --theme-sidebar-bg: #f1f3f4;
+  --theme-sidebar-text: #5f6368;
+  --theme-sidebar-active-bg: #e8eaed;
+  --theme-sidebar-active-text: #202124;
+  --theme-editor-bg: #ffffff;
+  --theme-editor-text: #202124;
+  --theme-editor-cursor: #1a73e8;
+  --theme-editor-line-numbers: #9aa0a6;
+  --theme-paper-bg: #ffffff;
+  --theme-paper-text: #000000; /* Solid Black text/headings for professional print-like quality */
+  --theme-paper-border: #dadce0;
+  --theme-accent: #1a73e8; /* Professional Google Blue */
+  --theme-accent-soft: #e8f0fe;
+  --theme-gold: #3c4043; /* Slate gray headings bar */
+}
+
+/* Dark Mode Overrides */
+.dark {
+  --theme-bg: #0b0d12;
+  --theme-text: #e4e6ea;
+  --theme-sidebar-bg: #11151e;
+  --theme-sidebar-text: #8b92a3;
+  --theme-sidebar-active-bg: #181d28;
+  --theme-sidebar-active-text: #e4e6ea;
+  --theme-editor-bg: #0b0d12;
+  --theme-editor-text: #e4e6ea;
+  --theme-editor-cursor: #c9a227;
+  --theme-editor-line-numbers: #3a4152;
+  --theme-paper-bg: #181c25;
+  --theme-paper-text: #ffffff; /* Solid White in dark mode preview */
+  --theme-paper-border: #242b3a;
+  --theme-accent: #8ab4f8; /* Soft blue */
+  --theme-accent-soft: rgba(138, 180, 248, 0.15);
+  --theme-gold: #c9a227;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+/* ---------- scrollbars ---------- */
+.editor-scroll::-webkit-scrollbar,
+.preview-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.editor-scroll::-webkit-scrollbar-thumb {
+  background: var(--theme-sidebar-active-bg);
+  border-radius: 999px;
+}
+.editor-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.preview-scroll::-webkit-scrollbar-thumb {
+  background: var(--theme-paper-border);
+  border-radius: 999px;
+}
+.preview-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- paper texture ---------- */
+.paper-texture {
+  background-color: var(--theme-paper-bg);
+  background-image: radial-gradient(circle at 1px 1px, rgba(11, 13, 18, 0.035) 1px, transparent 0);
+  background-size: 18px 18px;
+}
+
+/* deckle-edge seam shadow between editor and preview */
+.seam-shadow {
+  box-shadow: -18px 0 24px -20px rgba(11, 13, 18, 0.3) inset;
+}
+
+/* ---------- manuscript typography for rendered markdown ---------- */
+.manuscript {
+  color: var(--theme-paper-text);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+.manuscript mark {
+  background-color: rgba(178, 94, 67, 0.16) !important;
+  color: inherit !important;
+  border-radius: 0.2em;
+  padding: 0.05em 0.25em;
+}
+
+.manuscript > *:first-child {
+  margin-top: 0 !important;
+}
+
+.manuscript h1,
+.manuscript h2,
+.manuscript h3,
+.manuscript h4,
+.manuscript h1 a,
+.manuscript h2 a,
+.manuscript h3 a,
+.manuscript h4 a {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 700;
+  color: var(--theme-paper-text) !important;
+  text-decoration: none !important;
+  letter-spacing: -0.01em;
+  scroll-margin-top: 2rem;
+}
+
+.manuscript h1 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin: 2.5rem 0 1.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid var(--theme-gold);
+}
+
+.manuscript h2 {
+  font-size: 1.6rem;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--theme-paper-border);
+}
+
+.manuscript h3 {
+  font-size: 1.3rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.manuscript h4 {
+  font-size: 1.1rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.manuscript p {
+  margin: 1.25rem 0;
+}
+
+.manuscript a {
+  color: var(--theme-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--theme-accent-soft);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
+}
+.manuscript a:hover {
+  text-decoration-color: var(--theme-accent);
+}
+
+.manuscript strong {
+  font-weight: 700;
+  color: var(--theme-paper-text);
+}
+
+.manuscript em {
+  font-style: italic;
+}
+
+.manuscript blockquote {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 3px solid var(--theme-gold);
+  color: var(--theme-paper-text);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.manuscript ul,
+.manuscript ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.manuscript ul {
+  list-style: none;
+}
+
+.manuscript ul > li {
+  position: relative;
+  margin: 0.45rem 0;
+  padding-left: 0.25rem;
+}
+
+.manuscript ul > li::before {
+  content: "—";
+  position: absolute;
+  left: -1.25rem;
+  color: var(--theme-gold);
+}
+
+.manuscript ol > li {
+  margin: 0.45rem 0;
+  padding-left: 0.25rem;
+}
+
+.manuscript ol {
+  list-style: decimal;
+}
+
+.manuscript li > ul,
+.manuscript li > ol {
+  margin: 0.35rem 0;
+}
+
+.manuscript input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--theme-accent);
+}
+
+.manuscript hr {
+  border: none;
+  border-top: 1px dashed var(--theme-paper-border);
+  margin: 2.5rem 0;
+}
+
+.manuscript table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.manuscript th {
+  text-align: left;
+  background: var(--theme-sidebar-bg);
+  color: var(--theme-paper-text);
+  font-weight: 600;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--theme-paper-border);
+}
+
+.manuscript td {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--theme-paper-border);
+  color: var(--theme-paper-text);
+}
+
+.manuscript tr:nth-child(even) td {
+  background: rgba(128, 128, 128, 0.05);
+}
+
+.manuscript code {
+  font-family: var(--font-mono), monospace;
+  background: var(--theme-sidebar-bg);
+  color: var(--theme-gold);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.875em;
+}
+
+.manuscript pre {
+  margin: 1.5rem 0;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  border: 1px solid var(--theme-paper-border);
+  text-align: left !important;
+}
+
+.manuscript pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.875rem;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+.manuscript img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 1.25rem 0;
+  box-shadow: 0 8px 24px -12px rgba(11, 13, 18, 0.2);
+}
+
+.manuscript kbd {
+  font-family: var(--font-mono), monospace;
+  background: var(--theme-text);
+  color: var(--theme-bg);
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.4rem;
+  font-size: 0.8em;
+  box-shadow: 0 2px 0 #000;
+}
+
+/* katex block spacing */
+.manuscript .katex-display {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* code block line-number gutter used by syntax highlighter wrapper */
+.code-block-wrap {
+  position: relative;
+}
+.code-block-wrap .code-lang-tag {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8b92a3;
+  z-index: 1;
+}
+
+/* ---------- media print styles for PDF export ---------- */
+@media print {
+  html, body {
+    background: var(--theme-paper-bg) !important;
+    color: var(--theme-paper-text) !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Hide UI Panels */
+  header,
+  footer,
+  nav,
+  button,
+  .sidebar-panel,
+  .editor-panel,
+  .formatting-toolbar,
+  .distraction-free-hud,
+  [role="separator"],
+  [title*="resize"],
+  .group {
+    display: none !important;
+  }
+
+  /* Stack outer shell wrappers naturally */
+  main,
+  .flex-1,
+  .preview-panel {
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Expand preview to fill page */
+  .preview-scroll {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .manuscript {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1.5cm !important;
+    overflow: visible !important;
+  }
+}
+
+/* ---------- dark theme paper texture correction ---------- */
+.dark .paper-texture {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.015) 1px, transparent 0) !important;
+}
+
+/* ---------- theme specific manuscript overrides ---------- */
+
+/* 1. Analog Paper Theme (Ruled lines) */
+html[data-theme="paper"] .paper-texture {
+  background-image: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 95%, rgba(139, 115, 85, 0.06) 95%, rgba(139, 115, 85, 0.06) 100%) !important;
+  background-size: 100% 28px !important;
+  line-height: 28px !important;
+}
+html[data-theme="paper"] .manuscript p {
+  line-height: 28px !important;
+  margin: 28px 0 !important;
+}
+
+/* 2. Apple Modern Theme (SF Pro Typography) */
+html[data-theme="apple"] .manuscript {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+html[data-theme="apple"] .manuscript h1,
+html[data-theme="apple"] .manuscript h2,
+html[data-theme="apple"] .manuscript h3,
+html[data-theme="apple"] .manuscript h4 {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.022em !important;
+}
+
+/* 3. Google Material Theme (System Sans UI) */
+html[data-theme="google"] .manuscript {
+  font-family: "Google Sans", Roboto, Arial, sans-serif !important;
+}
+html[data-theme="google"] .manuscript h1,
+html[data-theme="google"] .manuscript h2,
+html[data-theme="google"] .manuscript h3 {
+  font-family: "Google Sans", Roboto, Arial, sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* 4. Burger Feast Theme (Tasty Accents) */
+html[data-theme="burger"] .manuscript h1 {
+  border-bottom-color: #BC4749 !important;
+}
+html[data-theme="burger"] .manuscript blockquote {
+  border-left-color: #BC4749 !important;
+}
+
+/* 5. Creative Neon Theme (Cyberpunk Glows) */
+html[data-theme="creative"] .manuscript h1 {
+  text-shadow: 0 0 8px rgba(139, 233, 253, 0.5) !important;
+}
+html[data-theme="creative"] .manuscript h2,
+html[data-theme="creative"] .manuscript h3 {
+  text-shadow: 0 0 5px rgba(255, 121, 198, 0.4) !important;
+}
+html[data-theme="creative"] .manuscript code {
+  box-shadow: 0 0 4px rgba(255, 184, 108, 0.3) !important;
+  background: rgba(40, 42, 54, 0.8) !important;
+}
+
+.font-handwriting {
+  font-family: var(--font-handwriting), 'Kalam', cursive, sans-serif !important;
+}
+
+/* Dynamic manuscript preview font overrides */
+html .manuscript.font-sans,
+html .manuscript.font-sans h1,
+html .manuscript.font-sans h2,
+html .manuscript.font-sans h3,
+html .manuscript.font-sans h4,
+html .manuscript.font-sans h1 a,
+html .manuscript.font-sans h2 a,
+html .manuscript.font-sans h3 a,
+html .manuscript.font-sans h4 a,
+html .manuscript.font-sans table,
+html .manuscript.font-sans th,
+html .manuscript.font-sans td {
+  font-family: var(--font-sans), Inter, sans-serif !important;
+}
+
+html .manuscript.font-serif,
+html .manuscript.font-serif h1,
+html .manuscript.font-serif h2,
+html .manuscript.font-serif h3,
+html .manuscript.font-serif h4,
+html .manuscript.font-serif h1 a,
+html .manuscript.font-serif h2 a,
+html .manuscript.font-serif h3 a,
+html .manuscript.font-serif h4 a,
+html .manuscript.font-serif table,
+html .manuscript.font-serif th,
+html .manuscript.font-serif td {
+  font-family: var(--font-serif), Georgia, serif !important;
+}
+
+html .manuscript.font-handwriting,
+html .manuscript.font-handwriting h1,
+html .manuscript.font-handwriting h2,
+html .manuscript.font-handwriting h3,
+html .manuscript.font-handwriting h4,
+html .manuscript.font-handwriting h1 a,
+html .manuscript.font-handwriting h2 a,
+html .manuscript.font-handwriting h3 a,
+html .manuscript.font-handwriting h4 a,
+html .manuscript.font-handwriting table,
+html .manuscript.font-handwriting th,
+html .manuscript.font-handwriting td {
+  font-family: var(--font-handwriting), 'Kalam', cursive, sans-serif !important;
+}
+
+html .manuscript.font-mono,
+html .manuscript.font-mono h1,
+html .manuscript.font-mono h2,
+html .manuscript.font-mono h3,
+html .manuscript.font-mono h4,
+html .manuscript.font-mono h1 a,
+html .manuscript.font-mono h2 a,
+html .manuscript.font-mono h3 a,
+html .manuscript.font-mono h4 a,
+html .manuscript.font-mono table,
+html .manuscript.font-mono th,
+html .manuscript.font-mono td {
+  font-family: var(--font-mono), JetBrains Mono, monospace !important;
+}
