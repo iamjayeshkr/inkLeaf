@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { useUser, SignIn } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+import LandingPage from "../layout/LandingPage";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -24,13 +25,9 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
     );
   }
 
-  // If the user is not signed in, render Clerk's prebuilt SignIn page centered on our brand grid
+  // If the user is not signed in, render the LandingPage
   if (!isSignedIn) {
-    return (
-      <div className="min-h-screen bg-[#FAF9F6] bg-[radial-gradient(#e4e2dd_1.5px,transparent_1.5px)] [background-size:24px_24px] flex items-center justify-center p-4">
-        <SignIn signUpUrl="/sign-up" routing="hash" />
-      </div>
-    );
+    return <LandingPage />;
   }
 
   // Otherwise, render the authenticated application content
